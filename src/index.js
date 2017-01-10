@@ -53,6 +53,7 @@ export default function createServer(_args, callback) {
    //得到所有插件
 
    //调用方式如下：_applyPlugins('middleware.before', null, next)
+   //在dora-webpack-plugin中调用：_applyPlugins('webpack.updateConfig',webpackConfig)
   function _applyPlugins(name, pluginArgs, _callback) {
     return applyPlugins(plugins, name, context, pluginArgs, _callback);
   }

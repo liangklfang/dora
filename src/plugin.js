@@ -123,7 +123,7 @@ export function applyPlugins(plugins, name, context, pluginArgs, _callback = fun
   const contextModify = context;
   reduceAsync(plugins, pluginArgs, (memo, plugin, callback) => {
     const func = plugin[name];//name是类似于'middleware.before'这样的字符串
-    if (!func) return callback(null, memo);
+    if (!func) return callback(null, memo);//比如dora-webpack-config中的‘webpack.updateConfig’和‘webpack.updateConfig.finally’
 
     const log = ['debug', 'info', 'warn', 'error'].reduce((_memo, key) => {
       const m = _memo;//_memo为reduce后面的空对象{}
@@ -171,6 +171,7 @@ export function applyPlugins(plugins, name, context, pluginArgs, _callback = fun
       spmLog.info('dora', 'try to restart...');
       process.send('restart');
     };
+    //这个在组件dora-plugin-webpack中通过this.restart()调用，当监听到package.json变化都就调用
     if (name === 'middleware') {
       contextModify.app.use(func.call(contextModify));//每一个middleware也就是如'middleware.before'的函数都会传入工具函数contextModify，middleware不更新_memo
       callback();
